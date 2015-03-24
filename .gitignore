@@ -1,0 +1,9 @@
+*.pyc
+dist/
+build/
+artifacts/
+abacus.egg-info/
+.vagrant
+.idea
+.DS_Store
+lunr-volume.vdi
