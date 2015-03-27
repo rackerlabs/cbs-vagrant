@@ -1,3 +1,5 @@
-nginx:                  # ID declaration
-  pkg:                  # state declaration
-    - installed         # function declaration
+nginx:
+  pkg.installed: []
+  service.running:
+    - require:
+        - pkg: nginx

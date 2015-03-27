@@ -2,10 +2,25 @@
 # vi: set ft=ruby :
 
 Vagrant.configure(2) do |config|
+
+  # More info on http://fgrehm.viewdocs.io/vagrant-cachier/usage
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :machine
+  end
+
+  # Ensure ubuntu vm has the latest version of VirtualBox Guest Additions
+  # (Requires vagrant-vbguest plugin)
+  config.vbguest.auto_update = true
+
   # The IP Address ends in 14.4 to indicate 14.04, Update it when we change versions
   config.vm.box = "ubuntu-14.04-amd64"
   config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box"
   config.vm.network "private_network", ip: "192.168.14.4"
+
+  # Disable the default shared directory
+  #config.vm.synced_folder ".", "/vagrant", disabled: true
+  # Instead share our parent directory to /vagrant
+  config.vm.synced_folder "..", "/vagrant", create: true
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -26,11 +41,11 @@ Vagrant.configure(2) do |config|
       vb.customize ['createhd', '--filename', disk, '--size', size * 1024, '--format', 'VDI']
     end
 
-    # Attach the disk
+    # Note: my version of vagrant created a storage controller with the name
+    # 'SATA Controller'. This might not be the same for others but
     vb.customize ['storageattach', :id, '--storagectl', 'SATAController',
                   '--port', 1, '--device', 0, '--type', 'hdd', '--medium', disk]
 
-    # Note: my version of vagrant created a storage controller with the name 'SATA Controller'. This might not be the same for others but
   end
 
   config.vm.define "api" do |api|
