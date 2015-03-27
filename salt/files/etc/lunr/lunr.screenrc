@@ -1,14 +1,16 @@
 # Name our screen socket
 sessionname lunr
 
-# Start the services
-screen -t storage 0
-stuff "/var/vagrant/lunr-virtualenv/bin/lunr-storage /etc/lunr/storage-server.conf\012"
-screen -t orbit 2
-stuff "/var/vagrant/lunr-virtualenv/bin/lunr-orbit -c /etc/lunr/orbit.conf\012"
-screen -t api 1
-stuff "/var/vagrant/lunr-virtualenv/bin/lunr-api /etc/lunr/api-server.conf\012"
+# Start an empty shell at the front of the line
+screen -t test 0
 
+# Start the services
+screen -t storage 1
+stuff "/var/vagrant/lunr-virtualenv/bin/lunr-storage /etc/lunr/storage-server.conf\012"
+screen -t api 2
+stuff "/var/vagrant/lunr-virtualenv/bin/lunr-api /etc/lunr/api-server.conf\012"
+screen -t orbit 3
+stuff "/var/vagrant/lunr-virtualenv/bin/lunr-orbit -c /etc/lunr/orbit.conf\012"
 
 # Setup the status line at the bottom of the page
 hardstatus alwayslastline "%-Lw%{= BW}%50>%n%f* %t%{-}%+Lw%< %= %H"

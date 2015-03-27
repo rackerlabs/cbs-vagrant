@@ -34,7 +34,8 @@ python-dev:
   pkg.installed: []
 
 python-pip:
-  pkg.installed: []
+  pkg.installed:
+    - reload_modules: true
 
 python-virtualenv:
   pkg.installed: []
@@ -49,6 +50,12 @@ mysql-client:
   pkg.installed: []
 
 libmysqlclient-dev:
+  pkg.installed: []
+
+python-mysqldb:
+  pkg.installed: []
+
+python-requests:
   pkg.installed: []
 
 # Required by 'pip freeze'
@@ -72,7 +79,7 @@ pip-packages:
     - bin_env:  /var/vagrant/lunr-virtualenv
     - user: vagrant
     - require:
-      - file: /var/vagrant/lunr-virtualenv
+      - virtualenv: /var/vagrant/lunr-virtualenv
       - pkg: python-pip
       - pkg: python-virtualenv
       - pkg: python-dev
@@ -84,7 +91,7 @@ pip-mysql-packages:
     - bin_env:  /var/vagrant/lunr-virtualenv
     - user: vagrant
     - require:
-      - file: /var/vagrant/lunr-virtualenv
+      - virtualenv: /var/vagrant/lunr-virtualenv
       - pkg: python-pip
       - pkg: python-virtualenv
       - pkg: python-dev
@@ -106,6 +113,9 @@ pip-mysql-packages:
   virtualenv.managed:
     - system_site_packages: False
     - user: vagrant
+    - reload_modules: true
+    - require:
+      - file: /var/vagrant/lunr-virtualenv
 
 /etc/lunr:
   file.directory:
@@ -185,6 +195,10 @@ pip-mysql-packages:
   file.managed:
     - source: salt://files/etc/default/iscsitarget
 
+/etc/cgconfig.conf:
+  file.managed:
+    - source: salt://files/etc/cgconfig.conf
+
 /etc/lunr/storage-server.conf:
   file.managed:
     - source: salt://files/etc/lunr/storage-server.conf
@@ -223,6 +237,19 @@ pip-mysql-packages:
     - source: salt://files/usr/bin/install-lunr.py
     - mode: 755
 
+/usr/bin/setup-lunr.py:
+  file.managed:
+    - source: salt://files/usr/bin/setup-lunr.py
+    - mode: 755
+
+/usr/bin/lunr-screen:
+  file.symlink:
+    - target: /vagrant/lunr/bin/lunr-screen
+
+/usr/bin/lunr-reset:
+  file.symlink:
+    - target: /vagrant/lunr/bin/lunr-reset
+
 
 ##################
 # Services
@@ -245,10 +272,25 @@ service-lunr-screen:
     - sig: /usr/bin/SCREEN -dm -c /etc/lunr/lunr.screenrc
     - require:
       - file: /etc/init.d/lunr-screen
+      - mysql_database: lunr-database
+
+service-mysql:
+  service.running:
+    - name: mysql
+    - require:
+      - pkg: mysql-server
+
+service-cgconfig:
+  service.running:
+    - name: cgconfig
+    - watch:
+      - file: /etc/cgconfig.conf
+    - require:
+      - pkg: cgroup-bin
 
 
 ##################
-# Lunr / Cinder
+# Setup Lunr
 ################
 
 install-lunr:
@@ -258,5 +300,35 @@ install-lunr:
     - cwd: /
     - require:
       - file: /usr/bin/install-lunr.py
+      - virtualenv: /var/vagrant/lunr-virtualenv
     - require_in:
       - service: service-lunr-screen
+
+lunr-setup:
+  cmd.run:
+    - name: /usr/bin/setup-lunr.py
+    - cwd: /
+    - require:
+      - file: /usr/bin/setup-lunr.py
+      - mysql_database: lunr-database
+      - mysql_database: cinder-database
+      - virtualenv: /var/vagrant/lunr-virtualenv
+
+
+##################
+# Misc
+################
+
+lunr-database:
+  mysql_database.present:
+    - name: lunr
+    - require:
+      - service: service-mysql
+
+cinder-database:
+  mysql_database.present:
+    - name: cinder
+    - require:
+      - service: service-mysql
+
+
