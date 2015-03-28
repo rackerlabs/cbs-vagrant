@@ -242,6 +242,11 @@ pip-mysql-packages:
     - source: salt://files/usr/bin/setup-lunr.py
     - mode: 755
 
+/usr/bin/setup-storage.py:
+  file.managed:
+    - source: salt://files/usr/bin/setup-storage.py
+    - mode: 755
+
 /usr/bin/lunr-screen:
   file.symlink:
     - target: /vagrant/lunr/bin/lunr-screen
@@ -249,6 +254,47 @@ pip-mysql-packages:
 /usr/bin/lunr-reset:
   file.symlink:
     - target: /vagrant/lunr/bin/lunr-reset
+
+/home/vagrant/lunr-virtualenv:
+  file.symlink:
+    - target: /var/vagrant/lunr-virtualenv/bin/activate
+
+/home/vagrant/cinder-virtualenv:
+  file.symlink:
+    - target: /var/vagrant/cinder-virtualenv/bin/activate
+
+/etc/sudoers.d/lunr:
+  file.managed:
+    - source: salt://files/etc/sudoers.d/lunr
+    - mode: 440
+
+/etc/sudoers.d/lunr-test:
+  file.managed:
+    - source: salt://files/etc/sudoers.d/lunr-tests
+    - mode: 440
+
+/etc/motd.tail:
+  file.managed:
+    - source: salt://files/etc/motd.tail
+    - mode: 644
+
+/home/vagrant/.bashrc
+  file.managed:
+    - source: salt://files/home/vagrant/bashrc
+    - user: vagrant
+    - group: vagrant
+    - mode: 644
+
+/root/.bashrc
+  file.managed:
+    - source: salt://files/home/vagrant/bashrc
+    - mode: 644
+
+/etc/iscsi/initiatorname.iscsi:
+  file.managed:
+    - mode: 600
+    -user: vagrant
+    -group: vagrant
 
 
 ##################
@@ -297,6 +343,7 @@ install-lunr:
   cmd.run:
     - name: /usr/bin/install-lunr.py
     - creates: /var/vagrant/lunr-virtualenv/lib/python2.7/site-packages/lunr.egg-link
+    - user: vagrant
     - cwd: /
     - require:
       - file: /usr/bin/install-lunr.py
@@ -304,15 +351,29 @@ install-lunr:
     - require_in:
       - service: service-lunr-screen
 
-lunr-setup:
+setup-lunr:
   cmd.run:
     - name: /usr/bin/setup-lunr.py
+    - user: vagrant
     - cwd: /
+    - unless: /var/vagrant/lunr-virtualenv/bin/lunr-admin type get vtype
     - require:
       - file: /usr/bin/setup-lunr.py
       - mysql_database: lunr-database
       - mysql_database: cinder-database
       - virtualenv: /var/vagrant/lunr-virtualenv
+
+setup-storage:
+  cmd.run:
+    - name: /usr/bin/setup-storage.py
+    - unless: pvs | grep lunr-volume
+    - cwd: /
+    - require:
+      - file: /usr/bin/setup-storage.py
+      - virtualenv: /var/vagrant/lunr-virtualenv
+      - mysql_database: lunr-database
+    - require_in:
+      - service: service-lunr-screen
 
 
 ##################

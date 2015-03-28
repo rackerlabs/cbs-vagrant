@@ -1,0 +1,18 @@
+************************************************************************
+
+  Welcome to CBS's Vagrant VM!
+
+  Reconnect to running screen session
+  $ lunr-screen
+
+  Control lunr/cinder services
+  $ service lunr-screen (restart|stop|start)
+
+  To Activate the cinder or lunr virtualenv's
+  $ source ~/lunr-virtualenv
+  $ source ~/cinder-virtualenv
+
+  The virtualenv's are located in /var/vagrant
+  All Source code is mounted locally in /vagrant
+
+************************************************************************
