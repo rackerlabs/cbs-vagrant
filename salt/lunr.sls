@@ -76,10 +76,10 @@ iscsitarget-dkms:
 pip-packages:
   pip.installed:
     - requirements: /vagrant/lunr/requirements.txt
-    - bin_env:  /var/vagrant/lunr-virtualenv
+    - bin_env:  /opt/lunr-virtualenv
     - user: vagrant
     - require:
-      - virtualenv: /var/vagrant/lunr-virtualenv
+      - virtualenv: /opt/lunr-virtualenv
       - pkg: python-pip
       - pkg: python-virtualenv
       - pkg: python-dev
@@ -88,10 +88,10 @@ pip-packages:
 pip-mysql-packages:
   pip.installed:
     - name: mysql
-    - bin_env:  /var/vagrant/lunr-virtualenv
+    - bin_env:  /opt/lunr-virtualenv
     - user: vagrant
     - require:
-      - virtualenv: /var/vagrant/lunr-virtualenv
+      - virtualenv: /opt/lunr-virtualenv
       - pkg: python-pip
       - pkg: python-virtualenv
       - pkg: python-dev
@@ -102,7 +102,7 @@ pip-mysql-packages:
 # Directories
 ################
 
-/var/vagrant/lunr-virtualenv:
+/opt/lunr-virtualenv:
   file.directory:
     - user: vagrant
     - group: vagrant
@@ -115,7 +115,7 @@ pip-mysql-packages:
     - user: vagrant
     - reload_modules: true
     - require:
-      - file: /var/vagrant/lunr-virtualenv
+      - file: /opt/lunr-virtualenv
 
 /etc/lunr:
   file.directory:
@@ -257,11 +257,11 @@ pip-mysql-packages:
 
 /home/vagrant/lunr-virtualenv:
   file.symlink:
-    - target: /var/vagrant/lunr-virtualenv/bin/activate
+    - target: /opt/lunr-virtualenv/bin/activate
 
 /home/vagrant/cinder-virtualenv:
   file.symlink:
-    - target: /var/vagrant/cinder-virtualenv/bin/activate
+    - target: /opt/cinder-virtualenv/bin/activate
 
 /etc/sudoers.d/lunr:
   file.managed:
@@ -278,14 +278,14 @@ pip-mysql-packages:
     - source: salt://files/etc/motd.tail
     - mode: 644
 
-/home/vagrant/.bashrc
+/home/vagrant/.bashrc:
   file.managed:
     - source: salt://files/home/vagrant/bashrc
     - user: vagrant
     - group: vagrant
     - mode: 644
 
-/root/.bashrc
+/root/.bashrc:
   file.managed:
     - source: salt://files/home/vagrant/bashrc
     - mode: 644
@@ -293,8 +293,8 @@ pip-mysql-packages:
 /etc/iscsi/initiatorname.iscsi:
   file.managed:
     - mode: 600
-    -user: vagrant
-    -group: vagrant
+    - user: vagrant
+    - group: vagrant
 
 
 ##################
@@ -342,12 +342,12 @@ service-cgconfig:
 install-lunr:
   cmd.run:
     - name: /usr/bin/install-lunr.py
-    - creates: /var/vagrant/lunr-virtualenv/lib/python2.7/site-packages/lunr.egg-link
+    - creates: /opt/lunr-virtualenv/lib/python2.7/site-packages/lunr.egg-link
     - user: vagrant
     - cwd: /
     - require:
       - file: /usr/bin/install-lunr.py
-      - virtualenv: /var/vagrant/lunr-virtualenv
+      - virtualenv: /opt/lunr-virtualenv
     - require_in:
       - service: service-lunr-screen
 
@@ -356,12 +356,12 @@ setup-lunr:
     - name: /usr/bin/setup-lunr.py
     - user: vagrant
     - cwd: /
-    - unless: /var/vagrant/lunr-virtualenv/bin/lunr-admin type get vtype
+    - unless: /opt/lunr-virtualenv/bin/lunr-admin type get vtype
     - require:
       - file: /usr/bin/setup-lunr.py
       - mysql_database: lunr-database
       - mysql_database: cinder-database
-      - virtualenv: /var/vagrant/lunr-virtualenv
+      - virtualenv: /opt/lunr-virtualenv
 
 setup-storage:
   cmd.run:
@@ -370,7 +370,7 @@ setup-storage:
     - cwd: /
     - require:
       - file: /usr/bin/setup-storage.py
-      - virtualenv: /var/vagrant/lunr-virtualenv
+      - virtualenv: /opt/lunr-virtualenv
       - mysql_database: lunr-database
     - require_in:
       - service: service-lunr-screen

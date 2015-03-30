@@ -20,19 +20,19 @@ def waitFor(url):
   sys.stdout.write('\n')
 
 # Run setup of lunr database tables
-os.system("/var/vagrant/lunr-virtualenv/bin/lunr-manage version_control 2> /dev/null")
-os.system("/var/vagrant/lunr-virtualenv/bin/lunr-manage upgrade")
+os.system("/opt/lunr-virtualenv/bin/lunr-manage version_control 2> /dev/null")
+os.system("/opt/lunr-virtualenv/bin/lunr-manage upgrade")
 
 # Start the services
 os.system("/usr/sbin/service lunr-screen start")
 
 # Create the volume type
 waitFor("http://localhost:8081/status")
-os.system("/var/vagrant/lunr-virtualenv/bin/lunr-admin type create vtype")
+os.system("/opt/lunr-virtualenv/bin/lunr-admin type create vtype")
 os.system("/usr/sbin/service lunr-screen restart")
 
 # Deploy all available nodes
 waitFor("http://localhost:8081/status")
-os.system("/var/vagrant/lunr-virtualenv/bin/lunr-admin node deploy -a")
+os.system("/opt/lunr-virtualenv/bin/lunr-admin node deploy -a")
 os.system("/usr/sbin/service lunr-screen restart")
 

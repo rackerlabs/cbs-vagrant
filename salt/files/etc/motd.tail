@@ -12,7 +12,7 @@
   $ source ~/lunr-virtualenv
   $ source ~/cinder-virtualenv
 
-  The virtualenv's are located in /var/vagrant
+  The virtualenv's are located in /opt
   All Source code is mounted locally in /vagrant
 
 ************************************************************************

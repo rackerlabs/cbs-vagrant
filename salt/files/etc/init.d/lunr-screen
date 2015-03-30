@@ -30,7 +30,7 @@ start ()
 stop ()
 {
     [ "$VERBOSE" != no ] && log_daemon_msg "Stopping $DESC" "$NAME"
-    PID=`ps -ef | grep $SCREENRC | grep /usr/bin/SCREEN | grep -v grep | awk '{print $2}'`
+    PID=`ps -ef | grep $SCREENRC | grep SCREEN | grep -v grep | awk '{print $2}'`
     kill $PID 
 }
 
