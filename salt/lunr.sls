@@ -1,79 +1,9 @@
 
 ##################
-# Packages
-################
-
-lvm2:
-  pkg.installed: []
-
-iscsitarget:
-  pkg.installed: []
-
-open-iscsi:
-  pkg.installed: []
-
-cgroup-bin:
-  pkg.installed: []
-
-screen:
-  pkg.installed: []
-
-curl:
-  pkg.installed: []
-
-qemu-utils:
-  pkg.installed: []
-
-blktap-utils:
-  pkg.installed: []
-
-libffi-dev:
-  pkg.installed: []
-
-python-dev:
-  pkg.installed: []
-
-python-pip:
-  pkg.installed:
-    - reload_modules: true
-
-python-virtualenv:
-  pkg.installed: []
-
-syslog-ng:
-  pkg.installed: []
-
-mysql-server:
-  pkg.installed: []
-
-mysql-client:
-  pkg.installed: []
-
-libmysqlclient-dev:
-  pkg.installed: []
-
-python-mysqldb:
-  pkg.installed: []
-
-python-requests:
-  pkg.installed: []
-
-# Required by 'pip freeze'
-git:
-  pkg.installed: []
-
-# For Precise
-iscsitarget-dkms:
-  pkg.installed:
-    - skip_verify: True
-    - force_yes: True
-
-
-##################
 # Pip Packages
 ################
 
-pip-packages:
+lunr-pip-packages:
   pip.installed:
     - requirements: /vagrant/lunr/requirements.txt
     - bin_env:  /opt/lunr-virtualenv
@@ -85,7 +15,7 @@ pip-packages:
       - pkg: python-dev
       - pkg: libffi-dev
 
-pip-mysql-packages:
+lunr-pip-mysql-packages:
   pip.installed:
     - name: mysql
     - bin_env:  /opt/lunr-virtualenv
@@ -171,13 +101,6 @@ pip-mysql-packages:
     - makedirs: True
     - mode: 755
 
-/var/log/cinder:
-  file.directory:
-    - user: vagrant
-    - group: vagrant
-    - makedirs: True
-    - mode: 755
-
 
 ##################
 # Files
@@ -214,15 +137,6 @@ pip-mysql-packages:
     - source: salt://files/etc/lunr/orbit.conf
     - template: jinja
 
-/etc/syslog-ng/conf.d/cbs.conf:
-  file.managed:
-    - source: salt://files/etc/syslog-ng/conf.d/cbs.conf
-    - template: jinja
-    - require:
-      - pkg: syslog-ng
-    - watch_in:
-      - service: service-syslog-ng
-
 /etc/init.d/lunr-screen:
   file.managed:
     - source: salt://files/etc/init.d/lunr-screen
@@ -258,10 +172,6 @@ pip-mysql-packages:
 /home/vagrant/lunr-virtualenv:
   file.symlink:
     - target: /opt/lunr-virtualenv/bin/activate
-
-/home/vagrant/cinder-virtualenv:
-  file.symlink:
-    - target: /opt/cinder-virtualenv/bin/activate
 
 /etc/sudoers.d/lunr:
   file.managed:
@@ -301,16 +211,6 @@ pip-mysql-packages:
 # Services
 ################
 
-service-syslog-ng:
-  service:
-    - name: syslog-ng
-    - running
-
-service-ssh:
-  service:
-    - name: ssh
-    - running
-
 service-lunr-screen:
   service:
     - name: lunr-screen
@@ -319,12 +219,6 @@ service-lunr-screen:
     - require:
       - file: /etc/init.d/lunr-screen
       - mysql_database: lunr-database
-
-service-mysql:
-  service.running:
-    - name: mysql
-    - require:
-      - pkg: mysql-server
 
 service-cgconfig:
   service.running:
@@ -360,7 +254,6 @@ setup-lunr:
     - require:
       - file: /usr/bin/setup-lunr.py
       - mysql_database: lunr-database
-      - mysql_database: cinder-database
       - virtualenv: /opt/lunr-virtualenv
 
 setup-storage:
@@ -385,11 +278,4 @@ lunr-database:
     - name: lunr
     - require:
       - service: service-mysql
-
-cinder-database:
-  mysql_database.present:
-    - name: cinder
-    - require:
-      - service: service-mysql
-
 

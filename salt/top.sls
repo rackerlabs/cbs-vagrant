@@ -1,4 +1,5 @@
 base:
   '*':
-    - webserver
+    - base
     - lunr
+    - cinder
