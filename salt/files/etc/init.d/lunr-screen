@@ -24,7 +24,7 @@ SCREENRC="/etc/lunr/lunr.screenrc"
 start ()
 {
     [ "$VERBOSE" != no ] && log_daemon_msg "Starting $DESC" "$NAME"
-    /sbin/start-stop-daemon --start -c vagrant --exec /usr/bin/screen -- -dm -c $SCREENRC
+    /sbin/start-stop-daemon --start -c vagrant --exec /usr/bin/screen -- -c $SCREENRC -dm
 }
 
 stop ()

@@ -141,6 +141,8 @@ lunr-pip-mysql-packages:
   file.managed:
     - source: salt://files/etc/init.d/lunr-screen
     - mode: 755
+    - require:
+      - file: /etc/lunr/lunr.screenrc
 
 /etc/lunr/lunr.screenrc:
   file.managed:
@@ -162,8 +164,9 @@ lunr-pip-mysql-packages:
     - mode: 755
 
 /usr/bin/lunr-screen:
-  file.symlink:
-    - target: /vagrant/lunr/bin/lunr-screen
+  file.managed:
+    - source: salt://files/usr/bin/lunr-screen
+    - mode: 755
 
 /usr/bin/lunr-reset:
   file.symlink:
@@ -172,6 +175,10 @@ lunr-pip-mysql-packages:
 /home/vagrant/lunr-virtualenv:
   file.symlink:
     - target: /opt/lunr-virtualenv/bin/activate
+
+/etc/rc2.d/lunr-screen:
+  file.symlink:
+    - target: /etc/init.d/lunr-screen
 
 /etc/sudoers.d/lunr:
   file.managed:
@@ -215,7 +222,7 @@ service-lunr-screen:
   service:
     - name: lunr-screen
     - running
-    - sig: /usr/bin/SCREEN -dm -c /etc/lunr/lunr.screenrc
+    - sig: SCREEN -c /etc/lunr/lunr.screenrc
     - require:
       - file: /etc/init.d/lunr-screen
       - mysql_database: lunr-database
@@ -240,6 +247,7 @@ install-lunr:
     - user: vagrant
     - cwd: /
     - require:
+      - pip: lunr-pip-packages
       - file: /usr/bin/install-lunr.py
       - virtualenv: /opt/lunr-virtualenv
     - require_in:
@@ -252,6 +260,7 @@ setup-lunr:
     - cwd: /
     - unless: /opt/lunr-virtualenv/bin/lunr-admin type get vtype
     - require:
+      - pip: lunr-pip-packages
       - file: /usr/bin/setup-lunr.py
       - mysql_database: lunr-database
       - virtualenv: /opt/lunr-virtualenv
@@ -262,6 +271,7 @@ setup-storage:
     - unless: pvs | grep lunr-volume
     - cwd: /
     - require:
+      - pip: lunr-pip-packages
       - file: /usr/bin/setup-storage.py
       - virtualenv: /opt/lunr-virtualenv
       - mysql_database: lunr-database

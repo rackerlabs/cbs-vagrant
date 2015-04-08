@@ -82,6 +82,10 @@ iscsitarget-dkms:
     - watch_in:
       - service: service-syslog-ng
 
+/etc/hosts:
+  file.managed:
+    - source: salt://files/etc/hosts
+
 
 ##################
 # Services
