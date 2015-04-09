@@ -33,10 +33,6 @@ libffi-dev:
 python-dev:
   pkg.installed: []
 
-python-pip:
-  pkg.installed:
-    - reload_modules: true
-
 python-virtualenv:
   pkg.installed: []
 
@@ -108,6 +104,17 @@ setup-base-root:
     - user: root
     - cwd: /root
     - unless: ls /root/.gitconfig
+
+/usr/bin/bootstrap-pip.py:
+  file.managed:
+    - source: salt://files/usr/bin/bootstrap-pip.py
+    - mode: 755
+  cmd.run:
+    - name: /usr/bin/bootstrap-pip.py
+    - user: root
+    - cwd: /tmp
+    - reload_modules: true
+
 
 ##################
 # Services

@@ -27,17 +27,7 @@ cinder-pip-packages:
     - user: vagrant
     - require:
       - virtualenv: /opt/cinder-virtualenv
-      - pkg: python-pip
-      - pkg: python-virtualenv
-      - pkg: python-dev
-
-linecache2:
-  pip.installed:
-    - bin_env:  /opt/cinder-virtualenv
-    - user: vagrant
-    - require:
-      - virtualenv: /opt/cinder-virtualenv
-      - pkg: python-pip
+      - cmd: /usr/bin/bootstrap-pip.py
       - pkg: python-virtualenv
       - pkg: python-dev
 
@@ -48,8 +38,7 @@ cinder-pip-test-packages:
     - user: vagrant
     - require:
       - virtualenv: /opt/cinder-virtualenv
-      - pip: linecache2
-      - pkg: python-pip
+      - cmd: /usr/bin/bootstrap-pip.py
       - pkg: python-virtualenv
       - pkg: python-dev
       - pkg: libpq-dev
@@ -61,7 +50,7 @@ cinder-pip-mysql-packages:
     - user: vagrant
     - require:
       - virtualenv: /opt/cinder-virtualenv
-      - pkg: python-pip
+      - cmd: /usr/bin/bootstrap-pip.py
       - pkg: python-virtualenv
       - pkg: python-dev
       - pkg: libmysqlclient-dev
@@ -152,6 +141,11 @@ cinder-pip-mysql-packages:
 /etc/cinder/cinder.conf:
   file.managed:
     - source: salt://files/etc/cinder/cinder.conf
+    - mode: 644
+
+/etc/cinder/test-requirements.txt:
+  file.managed:
+    - source: salt://files/etc/cinder/test-requirements.txt
     - mode: 644
 
 

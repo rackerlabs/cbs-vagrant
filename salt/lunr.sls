@@ -10,7 +10,7 @@ lunr-pip-packages:
     - user: vagrant
     - require:
       - virtualenv: /opt/lunr-virtualenv
-      - pkg: python-pip
+      - cmd: /usr/bin/bootstrap-pip.py
       - pkg: python-virtualenv
       - pkg: python-dev
       - pkg: libffi-dev
@@ -22,7 +22,7 @@ lunr-pip-mysql-packages:
     - user: vagrant
     - require:
       - virtualenv: /opt/lunr-virtualenv
-      - pkg: python-pip
+      - cmd: /usr/bin/bootstrap-pip.py
       - pkg: python-virtualenv
       - pkg: python-dev
       - pkg: libmysqlclient-dev

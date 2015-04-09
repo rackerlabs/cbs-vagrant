@@ -1,10 +1,5 @@
 #! /usr/bin/env python
 
-from requests.exceptions import ConnectionError
-
-import requests
-import time
-import sys
 import os
 
 # Setup github color things
