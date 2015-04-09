@@ -86,6 +86,28 @@ iscsitarget-dkms:
   file.managed:
     - source: salt://files/etc/hosts
 
+/usr/bin/setup-base.py:
+  file.managed:
+    - source: salt://files/usr/bin/setup-base.py
+    - mode: 755
+
+##################
+# Setup Base
+################
+
+setup-base-vagrant:
+  cmd.run:
+    - name: /usr/bin/setup-base.py
+    - user: vagrant
+    - cwd: /home/vagrant
+    - unless: ls /home/vagrant/.gitconfig
+
+setup-base-root:
+  cmd.run:
+    - name: /usr/bin/setup-base.py
+    - user: root
+    - cwd: /root
+    - unless: ls /root/.gitconfig
 
 ##################
 # Services

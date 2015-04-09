@@ -12,6 +12,9 @@ libxml2-dev:
 rabbitmq-server:
   pkg.installed: []
 
+libpq-dev:
+  pkg.installed: []
+
 
 ##################
 # Pip Packages
@@ -27,6 +30,29 @@ cinder-pip-packages:
       - pkg: python-pip
       - pkg: python-virtualenv
       - pkg: python-dev
+
+linecache2:
+  pip.installed:
+    - bin_env:  /opt/cinder-virtualenv
+    - user: vagrant
+    - require:
+      - virtualenv: /opt/cinder-virtualenv
+      - pkg: python-pip
+      - pkg: python-virtualenv
+      - pkg: python-dev
+
+cinder-pip-test-packages:
+  pip.installed:
+    - requirements: /vagrant/cinder/test-requirements.txt
+    - bin_env:  /opt/cinder-virtualenv
+    - user: vagrant
+    - require:
+      - virtualenv: /opt/cinder-virtualenv
+      - pip: linecache2
+      - pkg: python-pip
+      - pkg: python-virtualenv
+      - pkg: python-dev
+      - pkg: libpq-dev
 
 cinder-pip-mysql-packages:
   pip.installed:
