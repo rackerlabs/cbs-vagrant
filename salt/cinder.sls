@@ -30,10 +30,12 @@ cinder-pip-packages:
       - cmd: /usr/bin/bootstrap-pip.py
       - pkg: python-virtualenv
       - pkg: python-dev
+      - pkg: libxml2-dev
+      - pkg: libxslt1-dev
 
 cinder-pip-test-packages:
   pip.installed:
-    - requirements: /vagrant/cinder/test-requirements.txt
+    - requirements: /etc/cinder/test-requirements.txt
     - bin_env:  /opt/cinder-virtualenv
     - user: vagrant
     - require:

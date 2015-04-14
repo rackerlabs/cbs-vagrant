@@ -113,6 +113,7 @@ setup-base-root:
     - name: /usr/bin/bootstrap-pip.py
     - user: root
     - cwd: /tmp
+    - unless: /usr/bin/bootstrap-pip.py --check
     - reload_modules: true
 
 

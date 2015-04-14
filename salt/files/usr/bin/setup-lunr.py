@@ -36,3 +36,6 @@ waitFor("http://localhost:8081/status")
 os.system("/opt/lunr-virtualenv/bin/lunr-admin node deploy -a")
 os.system("/usr/sbin/service lunr-screen restart")
 
+if os.path.exists("/vagrant/python-lunrclient/requirements.txt"):
+    os.system("/opt/lunr-virtualenv/bin/pip install -r /vagrant/python-lunrclient/requirements.txt")
+    os.system("/opt/lunr-virtualenv/bin/python /vagrant/python-lunrclient/setup.py develop")

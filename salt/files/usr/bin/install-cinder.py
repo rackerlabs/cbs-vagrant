@@ -10,4 +10,8 @@ if os.path.exists("/vagrant/python-cinderclient/requirements.txt"):
     os.chdir('/vagrant/python-cinderclient')
     os.system("/opt/cinder-virtualenv/bin/pip install -r /vagrant/python-cinderclient/requirements.txt")
     os.system("/opt/cinder-virtualenv/bin/python /vagrant/python-cinderclient/setup.py develop")
+else:
+    os.system("/opt/cinder-virtualenv/bin/pip install python-cinderclient")
 
+# Install lunrdriver
+os.system("/opt/cinder-virtualenv/bin/python /vagrant/lunrdriver/setup.py develop")

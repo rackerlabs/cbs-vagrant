@@ -33,7 +33,7 @@ Vagrant.configure(2) do |config|
     vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
 
     # Create a 10 GIG disk for lunr to provision from
-    disk = './lunr-volume.vdi'
+    disk = 'lunr-volume.vdi'
     size = 10
 
     # If the disk doesn't already exist create it
