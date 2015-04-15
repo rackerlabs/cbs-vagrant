@@ -122,6 +122,7 @@ export PS1="$TAB$C3$C4..( $C2\u$C1@$C3\h$C1 ($C2\$(current_virtualenv)$C1): $C2\
 $C3$C2$PROMPT$C1$PROMPT$C0 "
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
+source /opt/vagrant-virtualenv/bin/activate 2> /dev/null
 
 export OS_AUTH_URL=http://localhost:5000/v2.0
 export OS_PASSWORD=devstack

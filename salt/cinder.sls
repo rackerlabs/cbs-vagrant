@@ -28,22 +28,20 @@ cinder-pip-packages:
     - require:
       - virtualenv: /opt/cinder-virtualenv
       - cmd: /usr/bin/bootstrap-pip.py
-      - pkg: python-virtualenv
       - pkg: python-dev
       - pkg: libxml2-dev
       - pkg: libxslt1-dev
 
-cinder-pip-test-packages:
-  pip.installed:
-    - requirements: /etc/cinder/test-requirements.txt
-    - bin_env:  /opt/cinder-virtualenv
-    - user: vagrant
-    - require:
-      - virtualenv: /opt/cinder-virtualenv
-      - cmd: /usr/bin/bootstrap-pip.py
-      - pkg: python-virtualenv
-      - pkg: python-dev
-      - pkg: libpq-dev
+#cinder-pip-test-packages:
+  #pip.installed:
+    #- requirements: /etc/cinder/test-requirements.txt
+    #- bin_env:  /opt/cinder-virtualenv
+    #- user: vagrant
+    #- require:
+      #- virtualenv: /opt/cinder-virtualenv
+      #- cmd: /usr/bin/bootstrap-pip.py
+      #- pkg: python-dev
+      #- pkg: libpq-dev
 
 cinder-pip-mysql-packages:
   pip.installed:
@@ -53,7 +51,6 @@ cinder-pip-mysql-packages:
     - require:
       - virtualenv: /opt/cinder-virtualenv
       - cmd: /usr/bin/bootstrap-pip.py
-      - pkg: python-virtualenv
       - pkg: python-dev
       - pkg: libmysqlclient-dev
 

@@ -11,7 +11,6 @@ lunr-pip-packages:
     - require:
       - virtualenv: /opt/lunr-virtualenv
       - cmd: /usr/bin/bootstrap-pip.py
-      - pkg: python-virtualenv
       - pkg: python-dev
       - pkg: libffi-dev
 
@@ -23,7 +22,6 @@ lunr-pip-mysql-packages:
     - require:
       - virtualenv: /opt/lunr-virtualenv
       - cmd: /usr/bin/bootstrap-pip.py
-      - pkg: python-virtualenv
       - pkg: python-dev
       - pkg: libmysqlclient-dev
 

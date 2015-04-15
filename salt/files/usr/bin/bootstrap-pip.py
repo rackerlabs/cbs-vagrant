@@ -29,5 +29,8 @@ if compare_versions(version, '6.1.1') == -1:
     os.system('pip install distribute --upgrade')
     os.system('pip install setuptools --upgrade')
     os.system('pip install pbr --upgrade')
+    os.system('pip install requests --upgrade')
+    os.system('pip install requests[security] --upgrade')
+    os.system('pip install virtualenv --upgrade')
 
 sys.exit(0)

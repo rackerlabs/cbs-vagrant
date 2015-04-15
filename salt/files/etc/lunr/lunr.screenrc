@@ -19,6 +19,8 @@ screen -t cinder-volume 5
 stuff "/opt/cinder-virtualenv/bin/cinder-volume --config-file /etc/cinder/cinder.conf\012"
 screen -t cinder-scheduler 6
 stuff "/opt/cinder-virtualenv/bin/cinder-scheduler --config-file /etc/cinder/cinder.conf\012"
+screen -t spoofstone 7
+stuff "/usr/bin/python /vagrant/spoofstone/spoofstone.py\012"
 
 # Setup the status line at the bottom of the page
 hardstatus alwayslastline "%-Lw%{= BW}%50>%n%f* %t%{-}%+Lw%< %= %H"

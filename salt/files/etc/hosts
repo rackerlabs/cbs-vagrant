@@ -4,6 +4,7 @@
 127.0.0.1 glance
 127.0.0.1 rabbit
 127.0.0.1 mysql
+127.0.0.1 nova
 
 
 # The following lines are desirable for IPv6 capable hosts

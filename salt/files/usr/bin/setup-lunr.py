@@ -4,23 +4,19 @@ from requests.exceptions import ConnectionError
 
 import requests
 import time
-import sys
 import os
 
 
 def waitFor(url):
-  for i in range(1, 10):
-    try:
-      return requests.get(url)
-    except ConnectionError:
-      sys.stdout.write(".")
-      sys.stdout.flush()
-      pass
-    time.sleep(1)
-  sys.stdout.write('\n')
+    for i in range(1, 10):
+        try:
+            return requests.get(url)
+        except ConnectionError:
+            pass
+        time.sleep(1)
 
 # Run setup of lunr database tables
-os.system("/opt/lunr-virtualenv/bin/lunr-manage version_control 2> /dev/null")
+os.system("/opt/lunr-virtualenv/bin/lunr-manage version_control")
 os.system("/opt/lunr-virtualenv/bin/lunr-manage upgrade")
 
 # Start the services
@@ -37,5 +33,6 @@ os.system("/opt/lunr-virtualenv/bin/lunr-admin node deploy -a")
 os.system("/usr/sbin/service lunr-screen restart")
 
 if os.path.exists("/vagrant/python-lunrclient/requirements.txt"):
-    os.system("/opt/lunr-virtualenv/bin/pip install -r /vagrant/python-lunrclient/requirements.txt")
-    os.system("/opt/lunr-virtualenv/bin/python /vagrant/python-lunrclient/setup.py develop")
+    os.chdir('/vagrant/python-lunrclient')
+    os.system("/opt/lunr-virtualenv/bin/pip install -r requirements.txt")
+    os.system("/opt/lunr-virtualenv/bin/python setup.py develop")

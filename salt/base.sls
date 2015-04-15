@@ -33,7 +33,7 @@ libffi-dev:
 python-dev:
   pkg.installed: []
 
-python-virtualenv:
+python-pip:
   pkg.installed: []
 
 syslog-ng:
@@ -48,10 +48,16 @@ mysql-client:
 libmysqlclient-dev:
   pkg.installed: []
 
+libssl-dev:
+  pkg.installed: []
+
+build-essential:
+  pkg.installed: []
+
 python-mysqldb:
   pkg.installed: []
 
-python-requests:
+devscripts:
   pkg.installed: []
 
 # Required by 'pip freeze'
@@ -82,27 +88,57 @@ iscsitarget-dkms:
   file.managed:
     - source: salt://files/etc/hosts
 
-/usr/bin/setup-base.py:
+/usr/bin/setup-git.py:
   file.managed:
-    - source: salt://files/usr/bin/setup-base.py
+    - source: salt://files/usr/bin/setup-git.py
     - mode: 755
+
+/opt/vagrant-virtualenv:
+  file.directory:
+    - user: vagrant
+    - group: vagrant
+    - makedirs: True
+    - recurse:
+      - user
+      - group
+  virtualenv.managed:
+    - system_site_packages: False
+    - user: vagrant
+    - require:
+      - file: /opt/vagrant-virtualenv
+      - cmd: /usr/bin/bootstrap-pip.py
+
 
 ##################
 # Setup Base
 ################
 
-setup-base-vagrant:
+setup-git-vagrant:
   cmd.run:
-    - name: /usr/bin/setup-base.py
+    - name: /usr/bin/setup-git.py
     - user: vagrant
     - cwd: /home/vagrant
     - unless: ls /home/vagrant/.gitconfig
 
-setup-base-root:
+setup-git-root:
+  cmd.run:
+    - name: /usr/bin/setup-git.py
+    - user: root
+    - cwd: /root
+    - unless: ls /root/.gitconfig
+
+/usr/bin/setup-base.py:
+  file.managed:
+    - source: salt://files/usr/bin/setup-base.py
+    - mode: 755
   cmd.run:
     - name: /usr/bin/setup-base.py
     - user: root
     - cwd: /root
+    - require:
+      - virtualenv: /opt/vagrant-virtualenv
+      - file: /usr/bin/setup-base.py
+      - cmd: /usr/bin/bootstrap-pip.py
     - unless: ls /root/.gitconfig
 
 /usr/bin/bootstrap-pip.py:
@@ -115,6 +151,13 @@ setup-base-root:
     - cwd: /tmp
     - unless: /usr/bin/bootstrap-pip.py --check
     - reload_modules: true
+    - require:
+      - pkg: python-dev
+      - pkg: python-pip
+      - pkg: build-essential
+      - pkg: libssl-dev
+      - pkg: libffi-dev
+      - file: /usr/bin/bootstrap-pip.py
 
 
 ##################
