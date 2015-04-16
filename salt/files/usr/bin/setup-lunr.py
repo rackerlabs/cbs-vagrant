@@ -27,6 +27,9 @@ waitFor("http://localhost:8081/status")
 os.system("/opt/lunr-virtualenv/bin/lunr-admin type create vtype")
 os.system("/usr/sbin/service lunr-screen restart")
 
+# Service still be running (give service time to stop and start)
+time.sleep(2)
+
 # Deploy all available nodes
 waitFor("http://localhost:8081/status")
 os.system("/opt/lunr-virtualenv/bin/lunr-admin node deploy -a")
