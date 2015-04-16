@@ -139,7 +139,7 @@ setup-git-root:
       - virtualenv: /opt/vagrant-virtualenv
       - file: /usr/bin/setup-base.py
       - cmd: /usr/bin/bootstrap-pip.py
-    - unless: ls /root/.gitconfig
+    - unless: ls /opt/vagrant-virtualenv/bin/cinder
 
 /usr/bin/bootstrap-pip.py:
   file.managed:

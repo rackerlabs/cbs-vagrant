@@ -162,8 +162,7 @@ install-cinder:
       - file: /usr/bin/install-cinder.py
       - virtualenv: /opt/cinder-virtualenv
       - pip: cinder-pip-packages
-    - require_in:
-      - service: service-lunr-screen
+    - unless: ls /opt/cinder-virtualenv/bin/cinder
 
 setup-cinder:
   cmd.run:

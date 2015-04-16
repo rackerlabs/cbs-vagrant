@@ -221,9 +221,13 @@ service-lunr-screen:
     - name: lunr-screen
     - running
     - sig: SCREEN -c /etc/lunr/lunr.screenrc
-    - require:
-      - file: /etc/init.d/lunr-screen
+    # This tells salt to run service-lunr-screen 
+    # after all other states
+    - listen:
       - mysql_database: lunr-database
+      - mysql_database: cinder-database
+      - file: /etc/init.d/lunr-screen
+      - file: /etc/cinder/cinder.conf
 
 service-cgconfig:
   service.running:
@@ -248,8 +252,7 @@ install-lunr:
       - pip: lunr-pip-packages
       - file: /usr/bin/install-lunr.py
       - virtualenv: /opt/lunr-virtualenv
-    - require_in:
-      - service: service-lunr-screen
+    - unless: ls /opt/lunr-virtualenv/bin/lunr
 
 setup-lunr:
   cmd.run:
@@ -273,8 +276,6 @@ setup-storage:
       - file: /usr/bin/setup-storage.py
       - virtualenv: /opt/lunr-virtualenv
       - mysql_database: lunr-database
-    - require_in:
-      - service: service-lunr-screen
 
 
 ##################
