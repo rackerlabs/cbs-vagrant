@@ -216,11 +216,10 @@ lunr-pip-mysql-packages:
 # Services
 ################
 
-service-lunr-screen:
+lunr-screen:
   service:
-    - name: lunr-screen
+    - enable: True
     - running
-    - sig: SCREEN -c /etc/lunr/lunr.screenrc
     # This tells salt to run service-lunr-screen 
     # after all other states
     - listen:
@@ -228,10 +227,12 @@ service-lunr-screen:
       - mysql_database: cinder-database
       - file: /etc/init.d/lunr-screen
       - file: /etc/cinder/cinder.conf
+      - cmd: /usr/bin/setup-lunr.py
 
-service-cgconfig:
-  service.running:
-    - name: cgconfig
+cgconfig:
+  service:
+    - enable: True
+    - running
     - watch:
       - file: /etc/cgconfig.conf
     - require:

@@ -31,7 +31,20 @@ stop ()
 {
     [ "$VERBOSE" != no ] && log_daemon_msg "Stopping $DESC" "$NAME"
     PID=`ps -ef | grep $SCREENRC | grep SCREEN | grep -v grep | awk '{print $2}'`
-    kill $PID 
+    if [ "$PID" != "" ]; then
+        kill $PID
+    fi
+}
+
+status ()
+{
+    PID=`ps -ef | grep $SCREENRC | grep SCREEN | grep -v grep | awk '{print $2}'`
+    if [ "$PID" != "" ]; then
+        echo "lunr-screen is running $PID"
+        exit 0
+    fi
+    echo "lunr-screen is NOT running"
+    exit 1
 }
 
 case "$1" in
@@ -42,7 +55,9 @@ case "$1" in
   stop)
       stop
       ;;
-
+  status)
+      status
+      ;;
   restart)
       stop
       start
