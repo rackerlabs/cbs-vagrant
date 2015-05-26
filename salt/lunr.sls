@@ -112,6 +112,14 @@ lunr-pip-mysql-packages:
     - require:
       - pkg: iscsitarget
 
+/etc/iet/initiators.allow:
+  file.managed:
+    - create: False
+    - user: vagrant
+    - group: vagrant
+    - require:
+      - pkg: iscsitarget
+
 /etc/default/iscsitarget:
   file.managed:
     - source: salt://files/etc/default/iscsitarget

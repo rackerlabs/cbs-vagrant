@@ -131,15 +131,14 @@ cinder-pip-mysql-packages:
     - user: vagrant
     - group: vagrant
 
-/etc/cinder/api-paste.ini:
-  file.symlink:
-    - target: /vagrant/cinder/etc/cinder/api-paste.ini
-    - user: vagrant
-    - group: vagrant
-
 /etc/cinder/cinder.conf:
   file.managed:
     - source: salt://files/etc/cinder/cinder.conf
+    - mode: 644
+
+/etc/cinder/api-paste.ini:
+  file.managed:
+    - source: salt://files/etc/cinder/api-paste.ini
     - mode: 644
 
 /etc/cinder/test-requirements.txt:

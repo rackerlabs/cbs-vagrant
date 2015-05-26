@@ -20,7 +20,7 @@ if [[ $EUID -eq 0 ]]; then
 fi
 
 # Reattach to another named session if possible
-if screen -r lunr > /dev/null; then
+if screen -rx lunr > /dev/null; then
     exit 0
 fi
 

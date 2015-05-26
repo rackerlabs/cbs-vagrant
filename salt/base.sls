@@ -180,3 +180,12 @@ service-mysql:
     - require:
       - pkg: mysql-server
 
+##################
+# User Groups
+################
+vagrant:
+  user.present:
+    - groups:
+      - sudo
+      - adm
+      - disk
