@@ -81,6 +81,13 @@ cinder-pip-mysql-packages:
     - makedirs: True
     - mode: 755
 
+/var/lock/cinder:
+  file.directory:
+    - user: vagrant
+    - group: vagrant
+    - makedirs: True
+    - mode: 755
+
 /var/lib/cinder:
   file.directory:
     - user: vagrant
@@ -98,6 +105,15 @@ cinder-pip-mysql-packages:
       - group
 
 /etc/cinder/state:
+  file.directory:
+    - user: vagrant
+    - group: vagrant
+    - makedirs: True
+    - recurse:
+      - user
+      - group
+
+/etc/cinder/rootwrap.d:
   file.directory:
     - user: vagrant
     - group: vagrant
@@ -136,6 +152,11 @@ cinder-pip-mysql-packages:
     - source: salt://files/etc/cinder/cinder.conf
     - mode: 644
 
+/etc/cinder/rootwrap.d/volume.filters:
+  file.managed:
+    - source: salt://files/etc/cinder/rootwrap.d/volume.filters
+    - mode: 644
+
 /etc/cinder/api-paste.ini:
   file.managed:
     - source: salt://files/etc/cinder/api-paste.ini
@@ -145,6 +166,11 @@ cinder-pip-mysql-packages:
   file.managed:
     - source: salt://files/etc/cinder/test-requirements.txt
     - mode: 644
+
+/usr/bin/cinder-reset:
+  file.managed:
+    - source: salt://files/usr/bin/cinder-reset
+    - mode: 755
 
 
 ##################

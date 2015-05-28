@@ -175,8 +175,11 @@ lunr-pip-mysql-packages:
     - mode: 755
 
 /usr/bin/lunr-reset:
-  file.symlink:
-    - target: /vagrant/lunr/bin/lunr-reset
+  file.managed:
+    - source: salt://files/usr/bin/lunr-reset
+    - mode: 755
+    - require:
+      - cmd: setup-lunr
 
 /home/vagrant/lunr-virtualenv:
   file.symlink:
