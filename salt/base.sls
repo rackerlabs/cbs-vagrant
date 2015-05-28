@@ -108,6 +108,10 @@ iscsitarget-dkms:
       - file: /opt/vagrant-virtualenv
       - cmd: /usr/bin/bootstrap-pip.py
 
+/home/vagrant/.my.cnf:
+  file.managed:
+    - source: salt://files/home/vagrant/.my.cnf
+
 
 ##################
 # Setup Base
