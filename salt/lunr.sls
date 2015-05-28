@@ -257,7 +257,7 @@ cgconfig:
 install-lunr:
   cmd.run:
     - name: /usr/bin/install-lunr.py
-    - creates: /opt/lunr-virtualenv/lib/python2.7/site-packages/lunr.egg-link
+    - creates: /opt/lunr-virtualenv/bin/lunr-api
     - user: vagrant
     - cwd: /
     - require:
