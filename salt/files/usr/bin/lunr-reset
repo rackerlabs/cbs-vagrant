@@ -27,8 +27,7 @@ sudo service cgconfig restart
 /opt/lunr-virtualenv/bin/lunr-manage version_control 2> /dev/null
 /opt/lunr-virtualenv/bin/lunr-manage upgrade
 
-LUNR_DIR=$(dirname $(readlink -f $0))/..
-/opt/lunr-virtualenv/bin/python $LUNR_DIR/lunr/db/console.py -c 'db.query(Backup).delete(); \
+/opt/lunr-virtualenv/bin/python /vagrant/lunr/lunr/db/console.py -c 'db.query(Backup).delete(); \
 db.query(Export).delete(); db.query(Volume).delete(); \
 db.query(Account).delete(); \
 db.query(Node).filter(Node.status=="DELETED").delete(); \
