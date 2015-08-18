@@ -10,6 +10,7 @@ lunr-pip-packages:
     - user: vagrant
     - require:
       - virtualenv: /opt/lunr-virtualenv
+      - file: /vagrant/lunr/requirements.txt
       - cmd: /usr/bin/bootstrap-pip.py
       - pkg: python-dev
       - pkg: libffi-dev
@@ -149,6 +150,11 @@ lunr-pip-mysql-packages:
     - mode: 755
     - require:
       - file: /etc/lunr/lunr.screenrc
+
+/vagrant/lunr/requirements.txt:
+  file.managed:
+    - source: salt://files/etc/lunr/requirements.txt
+    - mode: 644
 
 /etc/lunr/lunr.screenrc:
   file.managed:
