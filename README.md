@@ -27,22 +27,17 @@ $ mkdir ~/cbs-dev
 $ cd ~/cbs-dev
 ```
 
-## Checkout Havana Cinder
+## Checkout Ice House Cinder
 ```
 $ git clone https://github.com/openstack/cinder.git
-$ git checkout -b havana 3d967e05ea082cbb755586e07e21f2b070d0bdb3
+$ git checkout -b icehouse-2014.1.4 2014.1.4
 ```
 
-## Checkout Lunr and lunrdriver
+## Checkout Lunr and lunrdriver and the cinder extensions
 ```
-$ git clone https://github.rackspace.com/BigData/lunr.git
-$ git clone https://github.rackspace.com/BigData/lunrdriver.git
-```
-
-## Checkout python-cinderclient and python-lunrclient (Optional)
-```
-$ git clone https://github.rackspace.com/BigData/python-cinderclient.git
-$ git clone https://github.rackspace.com/BigData/python-lunrclient.git
+$ git clone git@github.rackspace.com/BigData/lunr.git
+$ git clone git@github.rackspace.com/BigData/lunrdriver.git
+$ git clone git@github.com:rackerlabs/rackspace_cinder_extensions.git
 ```
 
 ## Checkout the cbs-vagrant project
@@ -51,7 +46,7 @@ $ git clone git@github.rackspace.com:derr0215/cbs-vagrant.git
 ```
 
 ## Run vagrant
-Vagrant will create a new virtualbox instance and mount the ``~/dev`` directory
+Vagrant will create a new virtualbox instance and mount the ``~/cbs-dev`` directory
 inside the new virtual box instance as ``/vagrant``. It will then provision the
 instance using saltstack by downloading pip and package dependencies.
 
