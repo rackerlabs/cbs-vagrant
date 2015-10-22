@@ -33,11 +33,12 @@ $ git clone https://github.com/openstack/cinder.git
 $ git checkout -b icehouse-2014.1.4 2014.1.4
 ```
 
-## Checkout Lunr and lunrdriver and the cinder extensions
+## Checkout Lunr and lunrdriver, cinder extensions and spoofstone
 ```
 $ git clone git@github.rackspace.com/BigData/lunr.git
 $ git clone git@github.rackspace.com/BigData/lunrdriver.git
 $ git clone git@github.com:rackerlabs/rackspace_cinder_extensions.git
+$ git clone git@github.rackspace.com:BigData/spoofstone.git
 ```
 
 ## Checkout the cbs-vagrant project

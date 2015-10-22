@@ -70,6 +70,18 @@ lunr-pip-mysql-packages:
     - user: vagrant
     - group: vagrant
 
+/var/lunr:
+  file.directory:
+    - makedirs: True
+    - user: vagrant
+    - group: vagrant
+
+/var/run/lunr/runs:
+  file.directory:
+    - makedirs: True
+    - user: vagrant
+    - group: vagrant
+
 /etc/lunr/backups:
   file.directory:
     - user: vagrant
@@ -128,6 +140,10 @@ lunr-pip-mysql-packages:
 /etc/cgconfig.conf:
   file.managed:
     - source: salt://files/etc/cgconfig.conf
+
+/etc/lunr/usage.conf:
+  file.managed:
+    - source: salt://files/etc/usage.conf
 
 /etc/lunr/storage-server.conf:
   file.managed:
