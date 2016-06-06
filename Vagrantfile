@@ -15,11 +15,8 @@ Vagrant.configure(2) do |config|
   # The IP Address ends in 12.4 to indicate 12.04, Update it when we change versions
   config.vm.network "private_network", ip: "192.168.12.4"
 
-  config.vm.box = "ubuntu-12.04-amd64"
-  config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box"
-
-  #config.vm.box = "ubuntu-14.04-amd64"
-  #config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
+  config.vm.box = "ubuntu-14.04-amd64"
+  config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
 
   # Disable the default shared directory
   #config.vm.synced_folder ".", "/vagrant", disabled: true

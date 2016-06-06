@@ -17,4 +17,4 @@ else:
     os.system("/opt/vagrant-virtualenv/bin/pip install python-cinderclient")
 
 # Install Hubble
-os.system("/opt/vagrant-virtualenv/bin/pip install git+https://github.com/thrawn01/hubble.git@master")
+os.system("/opt/vagrant-virtualenv/bin/pip install hubble")

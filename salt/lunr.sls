@@ -10,7 +10,6 @@ lunr-pip-packages:
     - user: vagrant
     - require:
       - virtualenv: /opt/lunr-virtualenv
-      - file: /vagrant/lunr/requirements.txt
       - cmd: /usr/bin/bootstrap-pip.py
       - pkg: python-dev
       - pkg: libffi-dev
@@ -137,13 +136,13 @@ lunr-pip-mysql-packages:
   file.managed:
     - source: salt://files/etc/default/iscsitarget
 
-/etc/cgconfig.conf:
-  file.managed:
-    - source: salt://files/etc/cgconfig.conf
+#/etc/cgconfig.conf:
+#file.managed:
+#- source: salt://files/etc/cgconfig.conf
 
 /etc/lunr/usage.conf:
   file.managed:
-    - source: salt://files/etc/usage.conf
+    - source: salt://files/etc/lunr/usage.conf
 
 /etc/lunr/storage-server.conf:
   file.managed:
@@ -166,11 +165,6 @@ lunr-pip-mysql-packages:
     - mode: 755
     - require:
       - file: /etc/lunr/lunr.screenrc
-
-/vagrant/lunr/requirements.txt:
-  file.managed:
-    - source: salt://files/etc/lunr/requirements.txt
-    - mode: 644
 
 /etc/lunr/lunr.screenrc:
   file.managed:
@@ -262,14 +256,14 @@ lunr-screen:
       - file: /etc/cinder/cinder.conf
       - cmd: /usr/bin/setup-lunr.py
 
-cgconfig:
-  service:
-    - enable: True
-    - running
-    - watch:
-      - file: /etc/cgconfig.conf
-    - require:
-      - pkg: cgroup-bin
+#cgconfig:
+#  service:
+#    - enable: True
+#    - running
+#    - watch:
+#      - file: /etc/cgconfig.conf
+#    - require:
+#      - pkg: cgroup-bin
 
 
 ##################

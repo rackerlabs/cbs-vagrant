@@ -36,8 +36,15 @@ python-dev:
 python-pip:
   pkg.installed: []
 
+# trusty seems to install rsyslog by default, so we need to purge it before
+# syslog-ng can be installed, otherwise it will fail to install.
+rsyslog:
+  pkg.purged
+
 syslog-ng:
-  pkg.installed: []
+  pkg.installed:
+    - require:
+      - pkg: rsyslog
 
 mysql-server:
   pkg.installed: []

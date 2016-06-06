@@ -4,7 +4,7 @@ import os
 
 # Install Cinder
 os.chdir('/vagrant/cinder')
-os.system("/opt/cinder-virtualenv/bin/pip install -r /etc/cinder/requirements.txt")
+os.system("/opt/cinder-virtualenv/bin/pip install -r /vagrant/cinder/requirements.txt")
 os.system('/opt/cinder-virtualenv/bin/python setup.py develop')
 
 # Install lunrdriver

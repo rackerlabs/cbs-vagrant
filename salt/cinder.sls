@@ -27,7 +27,6 @@ cinder-pip-packages:
     - user: vagrant
     - require:
       - virtualenv: /opt/cinder-virtualenv
-      - file: /vagrant/cinder/requirements.txt
       - cmd: /usr/bin/bootstrap-pip.py
       - pkg: python-dev
       - pkg: libxml2-dev
@@ -47,6 +46,7 @@ cinder-pip-packages:
 cinder-pip-mysql-packages:
   pip.installed:
     - name: mysql
+    - upgrade: True
     - bin_env:  /opt/cinder-virtualenv
     - user: vagrant
     - require:
@@ -161,16 +161,6 @@ cinder-pip-mysql-packages:
 /etc/cinder/api-paste.ini:
   file.managed:
     - source: salt://files/etc/cinder/api-paste.ini
-    - mode: 644
-
-/vagrant/cinder/requirements.txt:
-  file.managed:
-    - source: salt://files/etc/cinder/requirements.txt
-    - mode: 644
-
-/etc/cinder/test-requirements.txt:
-  file.managed:
-    - source: salt://files/etc/cinder/test-requirements.txt
     - mode: 644
 
 /usr/bin/cinder-reset:
