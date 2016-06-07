@@ -27,16 +27,16 @@ $ mkdir ~/cbs-dev
 $ cd ~/cbs-dev
 ```
 
-## Checkout Ice House Cinder
+## Checkout Cinder
 ```
 $ git clone https://github.com/openstack/cinder.git
-$ git checkout stable/liberty
+$ (cd cinder; git checkout stable/liberty)
 ```
 
 ## Checkout Lunr and lunrdriver, cinder extensions and spoofstone
 ```
-$ git clone git@github.rackspace.com/BigData/lunr.git
-$ git clone git@github.rackspace.com/BigData/lunrdriver.git
+$ git clone https://github.com/rackerlabs/lunr
+$ git clone https://github.com/rackerlabs/lunrdriver.git
 $ git clone git@github.com:rackerlabs/rackspace_cinder_extensions.git
 $ git clone git@github.rackspace.com:BigData/spoofstone.git
 ```
