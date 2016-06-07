@@ -30,7 +30,7 @@ $ cd ~/cbs-dev
 ## Checkout Ice House Cinder
 ```
 $ git clone https://github.com/openstack/cinder.git
-$ git checkout -b icehouse-2014.1.4 2014.1.4
+$ git checkout stable/liberty
 ```
 
 ## Checkout Lunr and lunrdriver, cinder extensions and spoofstone

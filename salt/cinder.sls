@@ -32,16 +32,19 @@ cinder-pip-packages:
       - pkg: libxml2-dev
       - pkg: libxslt1-dev
 
-#cinder-pip-test-packages:
-  #pip.installed:
-    #- requirements: /etc/cinder/test-requirements.txt
-    #- bin_env:  /opt/cinder-virtualenv
-    #- user: vagrant
-    #- require:
-      #- virtualenv: /opt/cinder-virtualenv
-      #- cmd: /usr/bin/bootstrap-pip.py
-      #- pkg: python-dev
-      #- pkg: libpq-dev
+cinder-post-packages:
+  pip.installed:
+    - requirements: /etc/cinder/post-requirements.txt
+    - bin_env:  /opt/cinder-virtualenv
+    - user: vagrant
+    - require:
+      - file: /etc/cinder/post-requirements.txt
+      - pip: cinder-pip-packages
+      - virtualenv: /opt/cinder-virtualenv
+      - cmd: /usr/bin/bootstrap-pip.py
+      - pkg: python-dev
+      - pkg: libxml2-dev
+      - pkg: libxslt1-dev
 
 cinder-pip-mysql-packages:
   pip.installed:
@@ -147,27 +150,39 @@ cinder-pip-mysql-packages:
     - target: /vagrant/cinder/etc/cinder/policy.json
     - user: vagrant
     - group: vagrant
+    - mkdirs: True
 
 /etc/cinder/cinder.conf:
   file.managed:
     - source: salt://files/etc/cinder/cinder.conf
     - mode: 644
+    - mkdirs: True
 
 /etc/cinder/rootwrap.d/volume.filters:
   file.managed:
     - source: salt://files/etc/cinder/rootwrap.d/volume.filters
     - mode: 644
+    - mkdirs: True
 
 /etc/cinder/api-paste.ini:
   file.managed:
     - source: salt://files/etc/cinder/api-paste.ini
     - mode: 644
+    - mkdirs: True
 
 /usr/bin/cinder-reset:
   file.managed:
     - source: salt://files/usr/bin/cinder-reset
     - mode: 755
+    - mkdirs: True
 
+/etc/cinder/post-requirements.txt:
+  file.managed:
+    - source: salt://files/etc/cinder/post-requirements.txt
+    - mode: 644
+    - mkdirs: True
+    - require:
+      - file: /etc/cinder
 
 ##################
 # Setup Cinder
@@ -192,6 +207,7 @@ setup-cinder:
     - cwd: /
     - unless: ls /opt/cinder-virtualenv/cinder-setup-complete
     - require:
+      - cmd: /usr/bin/install-cinder.py
       - pip: cinder-pip-packages
       - file: /usr/bin/setup-cinder.py
       - mysql_database: cinder-database

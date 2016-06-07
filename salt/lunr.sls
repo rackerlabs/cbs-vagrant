@@ -143,21 +143,25 @@ lunr-pip-mysql-packages:
 /etc/lunr/usage.conf:
   file.managed:
     - source: salt://files/etc/lunr/usage.conf
+    - mkdirs: True
 
 /etc/lunr/storage-server.conf:
   file.managed:
     - source: salt://files/etc/lunr/storage-server.conf
     - template: jinja
+    - mkdirs: True
 
 /etc/lunr/api-server.conf:
   file.managed:
     - source: salt://files/etc/lunr/api-server.conf
     - template: jinja
+    - mkdirs: True
 
 /etc/lunr/orbit.conf:
   file.managed:
     - source: salt://files/etc/lunr/orbit.conf
     - template: jinja
+    - mkdirs: True
 
 /etc/init.d/lunr-screen:
   file.managed:
@@ -215,9 +219,9 @@ lunr-pip-mysql-packages:
     - source: salt://files/etc/sudoers.d/lunr-tests
     - mode: 440
 
-/etc/motd.tail:
+/etc/motd:
   file.managed:
-    - source: salt://files/etc/motd.tail
+    - source: salt://files/etc/motd
     - mode: 644
 
 /home/vagrant/.bashrc:
@@ -289,6 +293,7 @@ setup-lunr:
     - cwd: /
     - unless: /opt/lunr-virtualenv/bin/lunr-admin type get vtype
     - require:
+      - cmd: /usr/bin/install-lunr.py
       - pip: lunr-pip-packages
       - file: /usr/bin/setup-lunr.py
       - mysql_database: lunr-database
