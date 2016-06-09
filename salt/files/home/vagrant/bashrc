@@ -118,9 +118,14 @@ C3="\[\e[1;38m\]" # <- hostname color
 C4="\[\e[1;34m\]" # <- seperator color (..[ ]..)
 TAB='\033]0;\h\007'
 PROMPT='>'
-export PS1="$TAB$C3$C4..( $C2\u$C1@$C3\h$C1 ($C2\$(current_virtualenv)$C1): $C2\w$C1$C1 : $C2   $C1 $C4)..
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="$TAB$C3$C4..( $C2\u$C1@$C3\h$C1 ($C2\$(current_virtualenv)$C1): $C2\w$C1$C1 : $C2   $C1 $C4)..
 $C3$C2$PROMPT$C1$PROMPT$C0 "
-
+    ;;
+*)
+    ;;
+esac
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 source /opt/vagrant-virtualenv/bin/activate 2> /dev/null
 
