@@ -92,6 +92,13 @@ cinder-pip-mysql-packages:
     - makedirs: True
     - mode: 755
 
+/var/cache/cinder:
+  file.directory:
+    - user: vagrant
+    - group: vagrant
+    - makedirs: True
+    - mode: 755
+
 /var/lib/cinder:
   file.directory:
     - user: vagrant
