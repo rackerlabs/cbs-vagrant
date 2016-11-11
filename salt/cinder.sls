@@ -22,10 +22,11 @@ libpq-dev:
 
 cinder-pip-packages:
   pip.installed:
-    - requirements: /vagrant/cinder/requirements.txt
+    - requirements: /etc/cinder/liberty-requirements.txt
     - bin_env:  /opt/cinder-virtualenv
     - user: vagrant
     - require:
+      - file: /etc/cinder/liberty-requirements.txt
       - virtualenv: /opt/cinder-virtualenv
       - cmd: /usr/bin/bootstrap-pip.py
       - pkg: python-dev
@@ -186,6 +187,14 @@ cinder-pip-mysql-packages:
 /etc/cinder/post-requirements.txt:
   file.managed:
     - source: salt://files/etc/cinder/post-requirements.txt
+    - mode: 644
+    - mkdirs: True
+    - require:
+      - file: /etc/cinder
+
+/etc/cinder/liberty-requirements.txt:
+  file.managed:
+    - source: salt://files/etc/cinder/liberty-requirements.txt
     - mode: 644
     - mkdirs: True
     - require:
