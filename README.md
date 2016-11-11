@@ -43,7 +43,7 @@ $ git clone git@github.rackspace.com:BigData/spoofstone.git
 
 ## Checkout the cbs-vagrant project
 ```
-$ git clone git@github.rackspace.com:derr0215/cbs-vagrant.git
+$ git clone git@github.com:rackerlabs/cbs-vagrant.git
 ```
 
 ## Run vagrant
@@ -65,3 +65,9 @@ Or ask vagrant to ssh in
 ```
 $ vagrant ssh api
 ```
+
+## One additional deploy step.
+```
+$ /opt/lunr-virtualenv/bin/lunr-admin node deploy -a
+```
+This is actually included as part of a /usr/bin/setup-lunr.py script that doesn't appear to be used in the initial salt provisioning.
