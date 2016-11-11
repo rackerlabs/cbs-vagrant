@@ -43,7 +43,7 @@ $ git clone git@github.rackspace.com:BigData/spoofstone.git
 
 ## Checkout the cbs-vagrant project
 ```
-$ git clone git@github.rackspace.com:derr0215/cbs-vagrant.git
+$ git clone git@github.com:rackerlabs/cbs-vagrant.git
 ```
 
 ## Run vagrant
