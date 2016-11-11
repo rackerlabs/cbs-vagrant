@@ -65,3 +65,9 @@ Or ask vagrant to ssh in
 ```
 $ vagrant ssh api
 ```
+
+## One additional deploy step.
+```
+$ /opt/lunr-virtualenv/bin/lunr-admin node deploy -a
+```
+This is actually included as part of a /usr/bin/setup-lunr.py script that doesn't appear to be used in the initial salt provisioning.
